@@ -19,7 +19,7 @@ let userData: UserDetail;
  *
  * @returns Promise
  */
-async function createUser(roleId: number): Promise<UserDetail> {
+async function createUser(roleId: number, freshUser = false): Promise<UserDetail> {
   switch (roleId) {
     case 1:
       roleId = Role.ADMIN;
@@ -34,10 +34,20 @@ async function createUser(roleId: number): Promise<UserDetail> {
       roleId = Role.NORMAL_USER;
   }
 
+  if (freshUser){
+    return await userService.insert({
+      email: faker.internet.email(),
+      password: TEST_PASSWORD,
+      name: faker.name.fullName(),
+      roleId
+    });
+    
+  }
+
   return await userService.insert({
     email: TEST_EMAIL,
     password: TEST_PASSWORD,
-    name: faker.name.findName(),
+    name: faker.name.fullName(),
     roleId
   });
 }
@@ -63,16 +73,8 @@ export async function init(): Promise<UserDetail> {
 /**
  * Create an app customer/admin/driver user
  */
-export async function AppUser(role: number): Promise<UserDetail> {
-  userData = await createUser(role);
-  return userData;
-}
-
-/**
- * Create a driver user all table's data.
- */
-export async function DriverUser(): Promise<UserDetail> {
-  userData = await createUser(Role.DRIVER_USER);
+export async function AppUser(role: number, fresh = false): Promise<UserDetail> {
+  userData = await createUser(role, fresh);
   return userData;
 }
 

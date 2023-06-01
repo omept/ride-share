@@ -1,9 +1,8 @@
-import { faker } from '@faker-js/faker';
 import request from 'supertest';
 import { StatusCodes } from 'http-status-codes';
 
 import app from '../../src/app';
-import { getRandomElement, init, AppUser, TEST_EMAIL, TEST_PASSWORD } from '../helper';
+import {  init, AppUser, TEST_EMAIL, TEST_PASSWORD } from '../helper';
 import Role from '../../src/resources/enums/Role';
 
 describe('POST /start-ride API test', () => {
@@ -23,8 +22,8 @@ describe('POST /start-ride API test', () => {
   });
 
   test('should start a ride.', async () => {
-    const driverUser = await AppUser(Role.DRIVER_USER);
-    const customerUser = await AppUser(Role.NORMAL_USER);
+    const driverUser = await AppUser(Role.DRIVER_USER, true);
+    const customerUser = await AppUser(Role.NORMAL_USER, true);
     const expectedRequest = {
       driverId: driverUser.id,
       customerId: customerUser.id,

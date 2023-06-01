@@ -1,6 +1,7 @@
 import { Knex } from 'knex';
 
 import Table from '../../resources/enums/Table';
+import Role from '../../resources/enums/Role';
 
 /**
  * Add user_roles table.
@@ -22,14 +23,19 @@ export function up(knex: Knex): Promise<void> {
         .truncate()
         .insert([
           {
-            id: 1,
+            id: Role.ADMIN,
             name: 'Admin',
             description: 'This is super admin.'
           },
           {
-            id: 2,
+            id: Role.NORMAL_USER,
             name: 'Normal User',
             description: 'This is normal user.'
+          },
+          {
+            id: Role.DRIVER_USER,
+            name: 'Driver User',
+            description: 'This is driver user.'
           }
         ]);
     });
