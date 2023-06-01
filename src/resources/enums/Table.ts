@@ -3,7 +3,7 @@
  */
 enum Table {
   USERS = 'users',
-  USER_ROLES = 'user_roles',
+  USER_ROLES = 'roles',
   USER_SESSIONS = 'user_sessions',
 
   VEHICLES = 'vehicles',
