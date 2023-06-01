@@ -5,6 +5,7 @@ import UserDetail from '../src/domain/entities/UserDetail';
 import Table from '../src/resources/enums/Table';
 
 import * as userService from '../src/services/userService';
+import Role from '../src/resources/enums/Role';
 
 const tables = [Table.USER_SESSIONS, Table.USERS];
 
@@ -18,11 +19,26 @@ let userData: UserDetail;
  *
  * @returns Promise
  */
-async function createUser(): Promise<UserDetail> {
+async function createUser(roleId: number): Promise<UserDetail> {
+  switch (roleId) {
+    case 1:
+      roleId = Role.ADMIN;
+      break;
+    case 2:
+      roleId = Role.NORMAL_USER;
+      break;
+    case 3:
+      roleId = Role.DRIVER_USER;
+      break;
+    default:
+      roleId = Role.NORMAL_USER;
+  }
+
   return await userService.insert({
     email: TEST_EMAIL,
     password: TEST_PASSWORD,
-    name: faker.name.findName()
+    name: faker.name.findName(),
+    roleId
   });
 }
 
@@ -38,8 +54,25 @@ export async function init(): Promise<UserDetail> {
     await knex(table).del();
   }
 
-  userData = await createUser();
+  userData = await createUser(Role.NORMAL_USER);
 
+  return userData;
+}
+
+
+/**
+ * Create an app customer/admin/driver user
+ */
+export async function AppUser(role: number): Promise<UserDetail> {
+  userData = await createUser(role);
+  return userData;
+}
+
+/**
+ * Create a driver user all table's data.
+ */
+export async function DriverUser(): Promise<UserDetail> {
+  userData = await createUser(Role.DRIVER_USER);
   return userData;
 }
 
