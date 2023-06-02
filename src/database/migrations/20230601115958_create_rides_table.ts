@@ -25,6 +25,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
       table.double('from_longitude', 10, 6).nullable().index();
       table.double('to_longitude', 10, 6).nullable().index();
 
+      table.string('started_from').nullable();
       table.string('destination').nullable();
       table.timestamp('started_at').nullable();
       table.timestamp('ended_at').nullable();

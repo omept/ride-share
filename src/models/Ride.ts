@@ -6,11 +6,12 @@ class Ride extends Model {
   id!: number;
   customerId!: number;
   driverId!: number;
-  fromLatitude!: number;
-  toLatitude!: number;
-  fromLongitude!: number;
-  toLongitude!: number;
+  fromLatitude!: string;
+  toLatitude!: string;
+  fromLongitude!: string;
+  toLongitude!: string;
   destination!: string;
+  startedFrom!: string;
   startedAt!: string;
   createdAt!: string;
   updatedAt!: string;

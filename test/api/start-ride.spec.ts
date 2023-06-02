@@ -2,52 +2,55 @@ import request from 'supertest';
 import { StatusCodes } from 'http-status-codes';
 
 import app from '../../src/app';
-import {  init, AppUser, TEST_EMAIL, TEST_PASSWORD } from '../helper';
+import { init, AppUser, TEST_PASSWORD } from '../helper';
 import Role from '../../src/resources/enums/Role';
+import { faker } from '@faker-js/faker';
+import UserDetail from '../../src/domain/entities/UserDetail';
 
 describe('POST /start-ride API test', () => {
-  const email = TEST_EMAIL;
   const password = TEST_PASSWORD;
 
   let authorization: string;
+  let loggedInUser: UserDetail;
 
   beforeAll(async () => {
-    await init();
+    loggedInUser = await init();
 
     const response = await request(app)
       .post('/login')
-      .send({ email, password });
+      .send({ email: loggedInUser.email, password });
 
     authorization = `Bearer ${response.body.data.accessToken}`;
   });
 
   test('should start a ride.', async () => {
     const driverUser = await AppUser(Role.DRIVER_USER, true);
-    const customerUser = await AppUser(Role.NORMAL_USER, true);
+    const customerUser = loggedInUser;
     const expectedRequest = {
       driverId: driverUser.id,
       customerId: customerUser.id,
-      from: expect.any(String),
-      destination: expect.any(String),
+      startedFrom: faker.address.streetAddress(),
+      destination: faker.address.streetAddress(),
     };
 
     const expectedResponse = {
       code: StatusCodes.OK,
       message: expect.any(String),
-      data: expect.any(Array)
+      data: expect.any(Object)
     };
 
     const rideResponse = {
-      from: expect.any(String),
-      fromXCord: expect.any(Number),
-      fromYCord: expect.any(Number),
+      startedAt: expect.any(String),
+      startedFrom: expect.any(String),
+      fromLatitude: expect.any(String),
+      fromLongitude: expect.any(String),
       destination: expect.any(String),
-      destinationXCord: expect.any(Number),
-      destinationYCord: expect.any(Number),
+      toLatitude: expect.any(String),
+      toLongitude: expect.any(String),
       customerId: expect.any(Number),
       driverId: expect.any(Number),
-      updatedAt: expect.any(String),
-      createdAt: expect.any(String)
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String)
     };
 
     return request(app)

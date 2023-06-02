@@ -10,5 +10,8 @@
     "fetch": "User detail fetched successfully.",
     "delete": "User removed successfully.",
     "fetchAll": "List of users."
+  },
+  "rides": {
+    "startRide": "Ride created successfully."
   }
 }

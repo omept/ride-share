@@ -14,7 +14,7 @@ import UserPayload from '../domain/requests/UserPayload';
 export async function fetchAll(): Promise<UserDetail[]> {
   logger.log('info', 'Fetching users from database');
 
-  const users = await await User.query();
+  const users = await User.query();
   const res = transform(users, (user: UserDetail) => ({
     name: user.name,
     email: user.email,

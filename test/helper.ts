@@ -7,10 +7,10 @@ import Table from '../src/resources/enums/Table';
 import * as userService from '../src/services/userService';
 import Role from '../src/resources/enums/Role';
 
-const tables = [Table.USER_SESSIONS, Table.USERS];
+const tables = [Table.RIDES, Table.USER_SESSIONS, Table.USERS];
 
 export const TEST_EMAIL = faker.internet.email();
-export const TEST_PASSWORD = faker.internet.password();
+export const TEST_PASSWORD = 'passord';
 
 let userData: UserDetail;
 
