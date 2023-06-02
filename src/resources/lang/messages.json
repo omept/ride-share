@@ -12,6 +12,7 @@
     "fetchAll": "List of users."
   },
   "rides": {
-    "startRide": "Ride created successfully."
+    "startRide": "Ride created successfully.",
+    "stopRide": "Ride stopped successfully."
   }
 }

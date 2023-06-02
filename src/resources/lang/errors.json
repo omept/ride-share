@@ -9,5 +9,6 @@
   "portRequirePrivilege": "Port requires elevated privileges.",
   "unAuthorized": "You are not authorized to perform this action.",
   "driverAndCustomerMustBeValid": "DriverId and CustomerId must be valid.",
-  "destinationMustBeValid": "Destination must be valid."
+  "destinationMustBeValid": "Destination must be valid.",
+  "rideInvalid": "Ride Id is not valid."
 }

@@ -13,6 +13,7 @@ class Ride extends Model {
   destination!: string;
   startedFrom!: string;
   startedAt!: string;
+  endedAt!: string;
   createdAt!: string;
   updatedAt!: string;
 

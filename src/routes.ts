@@ -10,6 +10,7 @@ import { loginSchema } from './validators/loginRequest';
 import { userPOSTSchema } from './validators/userRequest';
 import validateRefreshToken from './middlewares/validateRefreshToken';
 import { startRideRequestSchema } from './validators/startRideRequest';
+import { stopRideRequestSchema } from './validators/stopRideRequest';
 
 const router: Router = Router();
 
@@ -31,6 +32,12 @@ router.post( '/start-ride',
   authenticate,
   validate(startRideRequestSchema),
   rideController.startRide
+);
+
+router.post( '/stop-ride',
+  authenticate,
+  validate(stopRideRequestSchema),
+  rideController.stopRide
 );
 
 export default router;

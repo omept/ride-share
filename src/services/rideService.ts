@@ -6,6 +6,7 @@ import { faker } from '@faker-js/faker';
 import BadRequestError from '../exceptions/BadRequestError';
 import config from '../config/config';
 import User from '../models/User';
+import StopRidePayload from '../domain/requests/StopRidePayload';
 
 
 const { errors } = config;
@@ -34,7 +35,7 @@ export async function insert(params: StartRidePayload, userId: number): Promise<
   if (!loggedInUserRequest) {
     throw new BadRequestError(errors.driverAndCustomerMustBeValid);
   }
-  
+
   if (params.destination.length == 0) {
     throw new BadRequestError(errors.destinationMustBeValid);
   }
@@ -52,6 +53,7 @@ export async function insert(params: StartRidePayload, userId: number): Promise<
   }).returning('*');
 
   const res = {
+    id: ride.id,
     customerId: ride.customerId,
     driverId: ride.driverId,
     destination: ride.destination,
@@ -68,4 +70,39 @@ export async function insert(params: StartRidePayload, userId: number): Promise<
   logger.log('debug', 'Inserted ride successfully:', ride);
 
   return res;
+}
+
+
+/**
+ * stop ride from given ride payload
+ *
+ * @param {StopRidePayload} params
+ * @returns {Promise<RideDetail>}
+ */
+export async function stop(params: StopRidePayload, userId: number): Promise<void> {
+  logger.log('info', 'stop a ride ', params);
+
+  const appRide = await Ride.query().findById(params.rideId);
+  if (!appRide) {
+    throw new BadRequestError(errors.rideInvalid);
+  }
+
+  let loggedInUserRequest = false;
+  const loggedInUserId = userId;
+
+  if ((appRide.driverId == loggedInUserId) || (appRide.customerId == loggedInUserId)) {
+    loggedInUserRequest = true;
+  }
+  if (!loggedInUserRequest) {
+    throw new BadRequestError(errors.driverAndCustomerMustBeValid);
+  }
+
+
+  const ride = await Ride.query().findById(appRide.id).patch({
+    endedAt: new Date().toLocaleString()
+  }).returning('*');
+
+
+  logger.log('debug', 'ride stopped successfully:', ride);
+
 }

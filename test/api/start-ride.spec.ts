@@ -40,6 +40,7 @@ describe('POST /start-ride API test', () => {
     };
 
     const rideResponse = {
+      id: expect.any(Number),
       startedAt: expect.any(String),
       startedFrom: expect.any(String),
       fromLatitude: expect.any(String),
