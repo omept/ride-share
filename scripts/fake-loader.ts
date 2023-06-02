@@ -25,7 +25,7 @@ function print<T>(data: T): void {
 
     process.exit(0);
   } catch (err) {
-    info(chalk`{red ${err.message}}`);
+    info(chalk`{red ${err}}`);
 
     process.exit(1);
   }

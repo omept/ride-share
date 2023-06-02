@@ -1,18 +1,18 @@
-import * as userFactory from './userFactory';
-import UserDetail from '../../domain/entities/UserDetail';
+import * as rideFactory from './rideFactory';
+import RideDetail from '../../domain/entities/RideDetail';
 
 interface Callback<T> {
   run: () => Promise<T>;
 }
 
 export enum FactoryType {
-  USER = 'User'
+  RIDE = 'Ride'
 }
 
 export interface Factories {
-  [FactoryType.USER]: Callback<UserDetail>;
+  [FactoryType.RIDE]: Callback<RideDetail>;
 }
 
-const factories: Factories = { [FactoryType.USER]: userFactory };
+const factories: Factories = { [FactoryType.RIDE]: rideFactory };
 
 export default factories;

@@ -7,6 +7,12 @@ Ride-sharing REST API  for Node.js Express API in Typescript with jsonwebtoken, 
 - [NPM](https://docs.npmjs.com/getting-started/installing-node)
 - [Docker](https://docs.docker.com/install/)
 
+## Assumptions
+
+- A user can be a driver, admin, or customer
+- signup is not available to the public.
+- No real ride is booked
+
 ## Getting Started
 
 Clone the repository, install the dependencies.
@@ -18,17 +24,17 @@ $ cd <application-name>
 
 $ cp .env.example .env # Update database credentials
 
-$ npm install mysql --save # required mysql driver for Knex
+$ npm install mysql --save # mysql driver for Knex.
 
 $ yarn install
 
-$ yarn migrate
+$ yarn migrate # migrate database
 ```
 
 Load fake data in database.
 
 ```bash
-$ yarn load:fake User 10 && yarn load:fake Ride 10
+$ yarn load:fake Ride 10  # CREATES 10 RIDES IN THE DB
 ```
 
 Start the application.
@@ -70,7 +76,7 @@ To stop the services.
 $ docker compose stop api postgres
 ```
 
-## Generating Migrations and Seeds
+## (Development) Generating Migrations and Seeds
 
 To create migration use `make:migration` and seed use `make:seeder`:
 
@@ -83,9 +89,9 @@ $ yarn make:seeder {table_name}_table_seeder
 Example,
 
 ```bash
-$ yarn make:migration create_posts_table
+$ yarn make:migration create_vehicles_table
 
-$ yarn make:seeder post_table_seeder
+$ yarn make:seeder rides_table_seeder
 ```
 
 Modify migration and seeder file as per the requirement. Then finally:
@@ -94,6 +100,22 @@ Modify migration and seeder file as per the requirement. Then finally:
 $ yarn migrate # to migrate
 
 $ yarn seed # to seed
+```
+
+## REST endpoints
+```bash
+App endpoints can be found in api.rest file
+
+#### Routes ⚡
+| Routes           | HTTP Methods | Params                                   | Description                                                                                                  |
+| :--------------- | :----------- | :--------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
+| /                | GET          | none                                     | Displays application infomation                                                                              |
+| /login           | POST         | `email` `password`                       | Logs in a user and returns the jwt session token                                                             |
+| /logout          | POST         | none                                     | Logs out a user                                                                                              |
+| /refresh         | POST         | none                                     | Refresh a user jwt token                                                                                     |
+| /start-ride     | POST         | `customerId`  `driverId`, `destination`, `startedFrom                     | Start a ride                                                                         |
+| /stop-ride | POST         | `ride_id`   | Stop a ride |
+
 ```
 
 ## Setting up REST Client (OPTIONAL)
@@ -125,3 +147,9 @@ Create a file or add following lines in `.vscode` > `settings.json` and switch a
 ## License
 
 ride-share is under [MIT License](LICENSE).
+
+
+## Reference 
+- https://github.com/cham11ng/typescript-api-starter
+- https://knexjs.org/
+- https://vincit.github.io/objection.js
